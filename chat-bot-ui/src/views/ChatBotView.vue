@@ -11,15 +11,18 @@
     />
   </v-container>
 
-  <v-sheet color="transparent" height="170px" />
+  <v-sheet color="transparent" height="100px" />
   <v-card class="message-box mt-10">
-    <v-text-field
+    <v-textarea
       hide-details
-      @keyup.enter="send"
+      @keydown.enter="maybeSend"
       v-model="question"
       @click:append-inner="send"
       append-inner-icon="mdi-send"
       placeholder="Ask a question..."
+      multi-line
+      rows="1"
+      auto-grow
     />
   </v-card>
 </template>
@@ -78,6 +81,12 @@ function animate(text: string, delay: number) {
 
 // API Calls
 const { sendQuestionAsync } = useAxios()
+
+function maybeSend(event: KeyboardEvent){
+  if(!event.shiftKey){
+    send();
+  }
+}
 
 async function send() {
   if (!question.value) return

@@ -20,7 +20,7 @@
 import type { ChatMessage } from '@/scripts/ChatMessage'
 import { computed } from 'vue'
 import { parse } from 'marked'
-import sanitizeHtml from 'sanitize-html';
+import sanitizeHtml from 'sanitize-html'
 
 const props = defineProps<{
   chatMessage: ChatMessage
@@ -28,8 +28,13 @@ const props = defineProps<{
 
 const parsedMessage = computed(() => {
   const html: string = parse(props.chatMessage.content).toString()
-  return sanitizeHtml(html);
-});
+
+  const regex = /<a href="([^"]+)">/g;
+  const replacement = '<a href="$1" target="_blank">'
+  const resultString = html.replace(regex, replacement)
+
+  return sanitizeHtml(resultString)
+})
 
 const userType = computed(() => {
   if (props.chatMessage.role === 'assistant') {
