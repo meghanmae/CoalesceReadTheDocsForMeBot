@@ -1,4 +1,3 @@
-from pathlib import Path
 from flask import request
 import requests
 import bs4
