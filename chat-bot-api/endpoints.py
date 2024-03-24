@@ -15,7 +15,7 @@ class endpoints:
         chat_client = OpenAIChatClient()
         data = request.get_json()
         query = data["message"]
-        chat_history = [tuple(item) for item in data["chat_history"]]
+        chat_history = data["chat_history"]
 
         # Note: Chat history is expected to follow the format List[dict[str:str]], with keys "role" and "content". "role" can be 'user' or 'assistant'.
         #[ {"role": "user", "content": "What is Vite"}, {"role": "assistant", "content": "Vite is this"}]

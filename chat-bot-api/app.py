@@ -7,8 +7,6 @@ from flask_cors import CORS
 # Local Imports
 from endpoints import *
 
-# Make sure to set API key in environment variables
-# https://python.langchain.com/docs/integrations/chat/azure_chat_openai
 from dotenv import load_dotenv
 load_dotenv(override=True)
 
