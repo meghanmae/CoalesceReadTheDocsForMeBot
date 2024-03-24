@@ -1,25 +1,60 @@
 <template>
-  <v-card align="left" :color="message.color" class="my-5" max-width="1000">
+  <v-card align="left" class="my-5" max-width="1000" :color="userType.cardColor" variant="tonal">
     <v-row dense class="pa-5" align="center">
       <v-col cols="auto">
-        <v-avatar color="primary" size="large">
-          <v-icon size="x-large" :icon="message.profileIcon"></v-icon>
+        <v-avatar size="large" :color="userType.iconColor">
+          <v-icon size="x-large" :icon="userType.icon" />
         </v-avatar>
       </v-col>
       <v-col>
-        <v-card-text v-if="message.message">
-          {{ message.message }}
+        <v-card-text v-if="chatMessage.content">
+          <div class="text-white" v-html="parsedMessage"></div>
         </v-card-text>
-        <v-progress-circular color="primary" size="x-small" class="ml-5" v-else indeterminate />
+        <v-progress-circular v-else color="primary" size="x-small" class="ml-5" indeterminate />
       </v-col>
     </v-row>
   </v-card>
 </template>
 
 <script setup lang="ts">
-import type { Message } from '@/scripts/Message'
+import type { ChatMessage } from '@/scripts/ChatMessage'
+import { computed } from 'vue'
+import { parse } from 'marked'
+import sanitizeHtml from 'sanitize-html';
 
-defineProps<{
-  message: Message
+const props = defineProps<{
+  chatMessage: ChatMessage
 }>()
+
+const parsedMessage = computed(() => {
+  const html: string = parse(props.chatMessage.content).toString()
+  return sanitizeHtml(html);
+});
+
+const userType = computed(() => {
+  if (props.chatMessage.role === 'assistant') {
+    return {
+      icon: 'mdi-robot-excited',
+      iconColor: 'primary',
+      cardColor: 'botMessage'
+    }
+  }
+  return {
+    icon: 'mdi-account',
+    iconColor: 'secondary',
+    cardColor: 'userMessage'
+  }
+})
 </script>
+
+<style scoped>
+/* Ensure that lists within the rendered HTML have indents */
+.html-content ul,
+.html-content ol {
+  padding-left: 20px;
+  margin-left: 20px;
+}
+.html-content li {
+  margin-bottom: 4px; /* Adjust spacing between list items if needed */
+}
+</style>

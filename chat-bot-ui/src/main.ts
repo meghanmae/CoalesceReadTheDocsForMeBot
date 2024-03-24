@@ -29,21 +29,12 @@ const vuetify = createVuetify({
       dark: {
         colors: {
           primary: '#2196F3',
-          secondary: '#673AB7',
+          secondary: '#009688',
           error: '#F44336',
-          botMessage: '#263238',
-          userMessage: '#607D8B'
+          botMessage: '#01579B',
+          userMessage: '#004D40'
         }
       },
-      light: {
-        colors: {
-          primary: '#2196F3',
-          secondary: '#673AB7',
-          error: '#F44336',
-          botMessage: '#B0BEC5',
-          userMessage: '#ECEFF1'
-        }
-      }
     }
   }
 })

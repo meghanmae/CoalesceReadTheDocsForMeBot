@@ -1,35 +1,47 @@
 <template>
   <v-container align="center">
-    <MessageCard :message="message" v-for="(message, i) in messages" :key="i" />
+    <!-- Chat History -->
+    <MessageCard :chatMessage="chatMessage" v-for="(chatMessage, i) in chatHistory" :key="i" />
 
-    <MessageCard id="animated-block" :message="animatedMessage" v-if="animatedMessage.message || thinking" />
+    <!-- Used to load response & show a typing animation -->
+    <MessageCard
+      v-if="animatedBotMessage.content || thinking"
+      :chatMessage="animatedBotMessage"
+      id="animated-block"
+    />
   </v-container>
 
   <v-sheet color="transparent" height="170px" />
   <v-card class="message-box mt-10">
-    <v-text-field hide-details @keyup.enter="send" v-model="question" @click:append-inner="send"
-      append-inner-icon="mdi-send" placeholder="Ask a question..." />
+    <v-text-field
+      hide-details
+      @keyup.enter="send"
+      v-model="question"
+      @click:append-inner="send"
+      append-inner-icon="mdi-send"
+      placeholder="Ask a question..."
+    />
   </v-card>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import MessageCard from '@/components/MessageCard.vue'
-import type { Message } from '@/scripts/Message'
-import axios from 'axios'
+import type { ChatMessage } from '@/scripts/ChatMessage'
+import { useAxios } from '@/scripts/useAxios'
 
-const thinking = ref(false)
-const question = ref('')
-const messages = ref<Message[]>([])
-const history = ref([])
-const animatedMessage = ref<Message>({
-  message: '',
-  profileIcon: 'mdi-robot-excited',
-  color: 'botMessage'
-})
-const currentMessage = ref('')
-const shouldAutoScroll = ref(true)
+const thinking = ref<boolean>(false)
+const question = ref<string>('')
+const chatHistory = ref<ChatMessage[]>([])
+
 const typingInterval = ref<any>(null)
+const animatedBotMessage = ref<ChatMessage>({
+  role: 'assistant',
+  content: ''
+})
+
+// Auto scroll & Animations
+const shouldAutoScroll = ref<boolean>(true)
 
 window.onscroll = function () {
   shouldAutoScroll.value = false
@@ -47,67 +59,46 @@ function animate(text: string, delay: number) {
   shouldAutoScroll.value = true
 
   typingInterval.value = setInterval(() => {
-    if (currentIndex === text.length) {
+    if (currentIndex === text.length) {      
       clearInterval(typingInterval.value)
+
+      // Save response to chat history & clear animation block
+      animatedBotMessage.value.content = '';
+      chatHistory.value.push({
+        role: 'assistant',
+        content: text
+      })
     } else {
-      animatedMessage.value.message += text[currentIndex]
+      animatedBotMessage.value.content += text[currentIndex]
       currentIndex++
     }
-
     autoScroll()
   }, delay)
 }
 
-function sendQuestion() {
-  messages.value.push({
-    message: question.value,
-    profileIcon: 'mdi-account',
-    color: 'userMesssage'
-  })
-
-  const payload = {
-    message: question.value,
-    chat_history: history.value
-  };
-
-  const customHeaders = {
-    'Content-Type': 'application/json',
-  };
-
-  const postUrl = 'http://127.0.0.1:5000/chat';
-
-  question.value = ''
-  thinking.value = true
-  axios.post(postUrl, payload, { headers: customHeaders })
-    .then(response => {
-
-      history.value = response.data.chat_history
-      currentMessage.value = history.value[history.value.length-1][1];
-      thinking.value = false;
-
-      animate(currentMessage.value, 30)
-    })
-    .catch(error => {
-      console.error('Error:', error);
-      // TODO: Handle the error
-    });
-}
+// API Calls
+const { sendQuestionAsync } = useAxios()
 
 async function send() {
   if (!question.value) return
 
-  if (currentMessage.value) {
-    messages.value.push({
-      message: currentMessage.value,
-      profileIcon: 'mdi-robot-excited',
-      color: 'botMessage'
-    })
-    animatedMessage.value.message = ''
-    currentMessage.value = ''
-    clearInterval(typingInterval.value)
-  }
+  thinking.value = true
 
-  await sendQuestion()
+  // Ask question & save question to chat history
+  const questionToAsk: ChatMessage = {
+    role: 'user',
+    content: question.value
+  }
+  question.value = ''
+  chatHistory.value.push(questionToAsk)
+
+  const response = await sendQuestionAsync(questionToAsk.content, chatHistory.value)
+
+  thinking.value = false
+
+  // Animate the response & then clear the animation
+  clearInterval(typingInterval.value)
+  animate(response, 10)
 }
 </script>
 

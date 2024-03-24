@@ -65,10 +65,10 @@ class endpoints:
             links = endpoints._scrape_nav_links_from_site(url)
             pages = []
 
-            for link in links[:2]: #TODO: Remove [:2] limit
+            for link in links:
                 text = endpoints._scrape_text_from_site(siteUrl + link)
                 pages.append(
-                    {"id": link, "metadata": {"source": link}, "document": text}
+                    {"id": f"{siteUrl}{link}", "metadata": {"source": link}, "document": text}
                 )
 
             if pages:
