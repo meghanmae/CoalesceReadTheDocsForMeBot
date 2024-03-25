@@ -27,15 +27,15 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: 'pip'
 
-      - name: Create and start virtual environment
-        run: |
-          python -m venv antenv
-          source antenv/bin/activate
+      #- name: Create and start virtual environment
+      #  run: |
+      #    python -m venv antenv
+      #    source antenv/bin/activate
 
-      - name: Install dependencies
-        run: |
-          cd chat-bot-api
-          pip install -r requirements.txt
+      #- name: Install dependencies
+      #  run: |
+      #    cd chat-bot-api
+      #    pip install -r requirements.txt
 
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
