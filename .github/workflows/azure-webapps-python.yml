@@ -36,6 +36,7 @@ jobs:
         run: |
           cd chat-bot-api
           pip install -r requirements.txt
+          python -m pip install requests
 
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
