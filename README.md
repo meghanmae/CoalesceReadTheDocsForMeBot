@@ -27,7 +27,8 @@ AZURE_OPENAI_API_VERSION
 
 **Run the Client**
 - Navigate to the chat-bot-ui directory and run `npm run dev`
-The API endpoint is hardcoded under [scripts/useAxios.ts](https://github.com/meghanmae/CoalesceReadTheDocsForMeBot/blob/d4825d7e465954df217221ec6e46ead3213f2119/chat-bot-ui/src/scripts/useAxios.ts#L4)... so make sure the magic string matches your API port
+
 
 **Troubleshooting**
+- The API endpoint is hardcoded under [scripts/useAxios.ts](https://github.com/meghanmae/CoalesceReadTheDocsForMeBot/blob/d4825d7e465954df217221ec6e46ead3213f2119/chat-bot-ui/src/scripts/useAxios.ts#L4)... so make sure the magic string matches your API port
 - If you get an error similar to `ValueError: Collection coalesce_docs does not exist.` you may have to call the scrape method to trigger chroma DB to generate your vectors. You can do this in the _playground.py file or with the scrape endpoint. 
