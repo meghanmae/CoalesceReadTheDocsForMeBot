@@ -30,7 +30,7 @@ jobs:
       - name: Create and start virtual environment
         run: |
           python -m venv antenv
-          source venv/bin/activate
+          source antenv/bin/activate
 
       - name: Install dependencies
         run: |
@@ -44,6 +44,8 @@ jobs:
         with:
           name: python-app
           path: chat-bot-api
+          # Exclude the virtual environment directory if it's within chat-bot-api; adjust path as needed
+          # If your venv directory is outside of chat-bot-api or you're uploading the entire app, adjust accordingly
 
   deploy:
     permissions:
