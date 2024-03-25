@@ -29,14 +29,13 @@ jobs:
 
       - name: Create and start virtual environment
         run: |
-          python -m venv venv
+          python -m venv antenv
           source venv/bin/activate
 
       - name: Install dependencies
         run: |
           cd chat-bot-api
           pip install -r requirements.txt
-          pip install Flask-Cors
 
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
