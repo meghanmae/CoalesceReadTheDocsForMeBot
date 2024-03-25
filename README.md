@@ -2,6 +2,10 @@
 A bot powered by Open AI's ChatGPT to answer questions about the coalesce documentation
 
 ## Setup
+**Install Python**
+- https://www.python.org/downloads/
+- Be sure to click 'Add Python 3.x to PATH' when doing the install
+
 **API**
 1. Navigate to the chat-bot-api directory and run `pip install -r requirements.txt` to install dependencies 
 
