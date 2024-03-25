@@ -84,6 +84,7 @@ const { sendQuestionAsync } = useAxios()
 
 function maybeSend(event: KeyboardEvent){
   if(!event.shiftKey){
+    event.preventDefault();
     send();
   }
 }
