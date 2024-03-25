@@ -23,3 +23,4 @@ Navigate to the chat-bot-api directory and run `python app.py`
 
 **Run the Client**
 Navigate to the chat-bot-ui directory and run `npm run dev`
+The API endpoint is hardcoded under [scripts/useAxios.ts](https://github.com/meghanmae/CoalesceReadTheDocsForMeBot/blob/d4825d7e465954df217221ec6e46ead3213f2119/chat-bot-ui/src/scripts/useAxios.ts#L4)... so make sure the magic string matches your API port
