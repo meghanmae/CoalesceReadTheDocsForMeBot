@@ -27,15 +27,15 @@ jobs:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: 'pip'
 
-      #- name: Create and start virtual environment
-      #  run: |
-      #    python -m venv antenv
-      #    source antenv/bin/activate
+      - name: Create and start virtual environment
+        run: |
+          python -m venv antenv
+          source antenv/bin/activate
 
-      #- name: Install dependencies
-      #  run: |
-      #    cd chat-bot-api
-      #    pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          cd chat-bot-api
+          pip install -r requirements.txt
 
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
@@ -44,8 +44,6 @@ jobs:
         with:
           name: python-app
           path: chat-bot-api
-          # Exclude the virtual environment directory if it's within chat-bot-api; adjust path as needed
-          # If your venv directory is outside of chat-bot-api or you're uploading the entire app, adjust accordingly
 
   deploy:
     permissions:

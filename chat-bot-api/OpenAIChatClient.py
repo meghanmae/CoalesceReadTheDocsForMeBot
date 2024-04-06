@@ -8,7 +8,8 @@ class OpenAIChatClient:
         load_dotenv(override=True)
         self._client = self._get_client()
         self.system_prompt = """
-        You are a chatbot that answers questions about Coalesce. 
+        You are a chatbot that answers questions about Coalesce.
+        You answer all code-related questions using Typescript and Vue Composition API unless asked otherwise. 
         You are concise and helpful, and always return citations for the id of the document you found information from.
         For example, for "id":"/Coalesce/introduction.html", return {"citation":"/Coalesce/introduction.html"} in your response.
         You always format your response using markdown. 
