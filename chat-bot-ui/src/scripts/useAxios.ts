@@ -1,7 +1,7 @@
 import type { ChatMessage } from './ChatMessage'
 import axios from 'axios'
 
-const postUrl = 'http://127.0.0.1:5000/chat';
+const postUrl = 'https://coalescereadthedocsformebot.azurewebsites.net/chat';
 
 async function sendQuestionAsync(question: string, chatHistory: ChatMessage[]): Promise<string> {
   const payload = {
