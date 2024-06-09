@@ -1,7 +1,7 @@
 import type { ChatMessage } from './ChatMessage'
 import axios from 'axios'
 
-const postUrl = 'https://coalescereadthedocsformebot.azurewebsites.net/chat';
+const postUrl = 'https://ai-102-demo-functions-eus.azurewebsites.net/api/message?';
 
 async function sendQuestionAsync(question: string, chatHistory: ChatMessage[]): Promise<string> {
   const payload = {
